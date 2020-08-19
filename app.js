@@ -3,10 +3,15 @@ const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const app = express();
+require("dotenv/config");
 
 //M EJS
 app.use(expressLayouts);
 app.set("view engine", "ejs");
+
+//BODYparser
+app.use(express.urlencoded({ extended: false }));
+
 //Import Routes
 app.use("/", require("./routes/index"));
 app.use("/user", require("./routes/user"));
@@ -14,8 +19,8 @@ app.use("/user", require("./routes/user"));
 //COnnect To DB
 mongoose.connect(
   process.env.DB_connect,
-  { urlNewUrlParser: true, useUnifiedTopology: true },
-  () => console.log("connected to DB")
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => console.log("connnected to DB")
 );
 //LISTEN
 app.listen(3100, function () {
